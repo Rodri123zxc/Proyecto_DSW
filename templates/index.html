@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONDOSA</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .navbar-custom {
+            background-color: #1C4C96;
+        }
+    
+        table.dataTable thead .table-header {
+            background-color: #1C4C96;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-custom">
+        <a class="navbar-brand" href="/">CONDOSA</a>
+    </nav>
+
+    <div class="container pt-4">
+        <div class="row">
+            <h3>Registro de casas en Condosa</h3>
+        </div>
+        {% block body %}
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="tipo_predio">Filtrar por Tipo de Predio:</label>
+                        <select class="form-control" id="tipo_predio" name="tipo_predio">
+                            <option value="">Todos los tipos de predio</option>
+                            <option value="Condominio">Condominio</option>
+                            <option value="Residencial">Residencial</option>
+                            <option value="Quinta">Quinta</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="checkbox-categorizar" name="categorizar">
+                        <label class="form-check-label" for="checkbox-categorizar">Categorizar</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+                <br>
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID Casa</th>
+                            <th>Número de la casa</th>
+                            <th>Piso</th>
+                            <th>Área</th>
+                            <th>Descripción del Predio</th>
+                            <th>Tipo de predio</th>
+                            <th>Dirección del Predio</th>
+                            <th>Nombre del propietario</th>
+                            <th>Mascota</th>
+                            <th>Estado de la casa</th>
+                            <th class="categoria-columna{% if not categorizar %} d-none{% endif %}">Categoría</th>             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dato in datos %}
+                        <tr>
+                            <td>{{ dato[0] or 'null' }}</td>
+                            <td>{{ dato[1] or 'null' }}</td>
+                            <td>{{ dato[2] or 'null' }}</td>
+                            <td>{{ dato[3] or 'null' }}</td>
+                            <td>{{ dato[4] or 'null' }}</td>
+                            <td>{{ dato[5] or 'null' }}</td>
+                            <td>{{ dato[6] or 'null' }}</td>
+                            <td>{{ dato[7] or 'null' }}</td>
+                            <td>{{ dato[8] or 'null' }}</td>
+                            
+                            <td>{{ dato[9] or 'null' }}</td>
+                            <td class="categoria-columna{% if not categorizar %} d-none{% endif %}">
+                                {% if dato[9] == 'Habitada' or dato[9] == 'Alquilada' %}
+                                    p1
+                                {% else %}
+                                    p2
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+            $('#checkbox-categorizar').change(function () {
+                $('td.categoria-columna').toggleClass('d-none');
+                $('th.categoria-columna').toggleClass('d-none');
+            });
+        });
+    </script>
+    
+</body>
+</html>

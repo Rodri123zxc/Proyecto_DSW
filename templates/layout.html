@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CONDOSA</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-indigo">
+        <a class="navbar-brand" href="/">CONDOSA</a>
+    </nav>
+
+    <div class="container pt-4">
+        {% block body %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+                "iDisplayLength": 3
+            });
+
+            // Ocultar la columna al cargar la página
+            $('th:nth-child(10), td:nth-child(10)').addClass('oculto');
+
+            $('#checkbox-categorizar').change(function() {
+                if (this.checked) {
+                    $('th:nth-child(10), td:nth-child(10)').removeClass('oculto');
+                } else {
+                    $('th:nth-child(10), td:nth-child(10)').addClass('oculto');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
